@@ -9,9 +9,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 
-MODEL_SERIALIZATION_FILEPATH = 'model_dump.dat'
-VECTORIZER_SERIALIZATION_FILEPATH = 'vectorizer_dump.dat'
-DATAFRAME_FILEPATH = 'tickets_dataframe.csv'
+MODEL_SERIALIZATION_FILEPATH = 'files/model_dump.dat'
+VECTORIZER_SERIALIZATION_FILEPATH = 'files/vectorizer_dump.dat'
+DATAFRAME_FILEPATH = 'files/tickets_dataframe.csv'
 
 
 class Model:
