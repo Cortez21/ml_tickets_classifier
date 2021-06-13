@@ -1,5 +1,5 @@
 *.csv
 *.dat
 venv
-.idea
+.idea/
 __pycache__

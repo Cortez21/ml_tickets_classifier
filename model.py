@@ -54,7 +54,7 @@ class Model:
             ngram_range=(2, 4),
             analyzer='char'
         )
-        for i in range(10):
+        for i in range(100):
             print(f'{i} model learning...')
             X_train, X_test, y_train, y_test = train_test_split(
                 *self._load_dataframe_vectorized(),
