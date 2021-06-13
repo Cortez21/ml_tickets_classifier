@@ -51,14 +51,14 @@ class Model:
         models = dict()
         self.vectorizer = TfidfVectorizer(
             lowercase=True,
-            ngram_range=(2, 4),
+            ngram_range=(3, 3),
             analyzer='char'
         )
-        for i in range(100):
+        for i in range(1000):
             print(f'{i} model learning...')
             X_train, X_test, y_train, y_test = train_test_split(
                 *self._load_dataframe_vectorized(),
-                test_size=0.3,
+                test_size=0.33,
                 shuffle=True
             )
             model = LinearSVC()
