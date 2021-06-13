@@ -18,3 +18,5 @@ sklearn==0.0
 threadpoolctl==2.1.0
 typing-extensions==3.10.0.0
 yarl==1.6.3
+
+validators~=0.18.2
