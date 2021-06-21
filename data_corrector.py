@@ -10,7 +10,7 @@ class DataCorrector:
         self.text = text
 
     def parse(self):
-        body_text = self.text.lower()
+        body_text = self.text.lower().replace('\\', '')
         words = body_text.split(' ')
         for i, word in enumerate(words):
             if self.check_player_uuid(word):

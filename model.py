@@ -9,38 +9,41 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 
-MODEL_SERIALIZATION_FILEPATH = 'files/model_dump.dat'
-VECTORIZER_SERIALIZATION_FILEPATH = 'files/vectorizer_dump.dat'
-DATAFRAME_FILEPATH = 'files/tickets_dataframe.csv'
+MODEL_SERIALIZATION_FILEPATH = 'files/model_dump_{}.dat'
+VECTORIZER_SERIALIZATION_FILEPATH = 'files/vectorizer_dump_{}.dat'
+DATAFRAME_FILEPATH = 'files/tickets_dataframe_{}.csv'
+supported_languages = ['en', 'ru']
 
 
 class Model:
     model: Optional[LinearSVC]
     vectorizer: Optional[TfidfVectorizer]
+    language: str
 
-    def __init__(self):
+    def __init__(self, language: str = 'en'):
+        self.language = language
         try:
             self._load_current()
             print('Model loaded successfully')
         except FileNotFoundError:
-            print('Not model found on local disc. Please, call fit() method to create the new one')
+            print(f'Not model "{self.language}" found on local disc. Please, call fit() method to create the new one')
 
     def _save(self):
-        with open(MODEL_SERIALIZATION_FILEPATH, 'wb') as file:
+        with open(MODEL_SERIALIZATION_FILEPATH.format(self.language), 'wb') as file:
             pickle.dump(obj=self.model, file=file)
-        with open(VECTORIZER_SERIALIZATION_FILEPATH, 'wb') as file:
+        with open(VECTORIZER_SERIALIZATION_FILEPATH.format(self.language), 'wb') as file:
             pickle.dump(obj=self.vectorizer, file=file)
 
     def _load_current(self):
-        with open(MODEL_SERIALIZATION_FILEPATH, 'rb') as file:
+        with open(MODEL_SERIALIZATION_FILEPATH.format(self.language), 'rb') as file:
             self.model = pickle.load(file)
-        with open(VECTORIZER_SERIALIZATION_FILEPATH, 'rb') as file:
+        with open(VECTORIZER_SERIALIZATION_FILEPATH.format(self.language), 'rb') as file:
             self.vectorizer = pickle.load(file)
 
     def _load_dataframe_vectorized(self):
         X_raw = list()
         y = list()
-        with open(DATAFRAME_FILEPATH, 'r') as file:
+        with open(DATAFRAME_FILEPATH.format(self.language), 'r') as file:
             csv_reader = csv.reader(file)
             for row in csv_reader:
                 X_raw.append(row[0])
