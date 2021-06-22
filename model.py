@@ -24,7 +24,7 @@ class Model:
         self.language = language
         try:
             self._load_current()
-            print('Model loaded successfully')
+            print(f'Model {language} loaded successfully')
         except FileNotFoundError:
             print(f'Not model "{self.language}" found on local disc. Please, call fit() method to create the new one')
 

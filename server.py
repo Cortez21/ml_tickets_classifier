@@ -8,8 +8,10 @@ from model import Model
 from langdetect import detect, LangDetectException
 
 routes = web.RouteTableDef()
-model_ru = Model('ru')
-model_en = Model('en')
+models = {
+    'ru': Model('ru'),
+    'en': Model('en')
+}
 
 
 @routes.post('/predict')
@@ -20,12 +22,8 @@ async def predict(request):
         body_dict = json.loads(body)
         text = body_dict['message']
         response_dict['status'] = 'SUCCES'
-        if detect(text) in ['sl', 'uk', 'et', 'bg', 'ru', 'ca', 'pt', 'cs', 'it', 'es', 'so', 'cy', 'ro', 'mk']:
-            lang = 'ru'
-            topic_name = model_ru.predict(DataCorrector(text).parse())
-        else:
-            lang = 'en'
-            topic_name = model_en.predict(DataCorrector(text).parse())
+        lang = detect_language(text)
+        topic_name = models.get(lang).predict(DataCorrector(text).parse())
         response_dict['language'] = lang
         response_dict['topic_name'] = topic_name
     except Exception:
@@ -36,6 +34,16 @@ async def predict(request):
         body=response_body,
         content_type='application/json'
     )
+
+
+def detect_language(text):
+    try:
+        if detect(text) in ['sl', 'uk', 'et', 'bg', 'ru', 'ca', 'pt', 'cs', 'it', 'es', 'so', 'cy', 'ro', 'mk']:
+            return 'ru'
+        else:
+            return 'en'
+    except LangDetectException:
+        return 'en'
 
 
 app = web.Application()
