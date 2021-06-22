@@ -32,7 +32,10 @@ async def predict(request):
         print(sys.exc_info())
         response_dict['status'] = 'ERROR'
     response_body = json.dumps(response_dict)
-    return web.Response(body=response_body)
+    return web.Response(
+        body=response_body,
+        content_type='application/json'
+    )
 
 
 app = web.Application()
